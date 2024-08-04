@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { connect } from "@/libs/connect";
+import { Connect } from "@/libs/connect";
 import User from "@/Models/UserSchema";
 
 export async function POST(req: Request) {
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  if (eventType === "user.created") {
+  if (evt.type === "user.created") {
     const { id, email_addresses } = evt.data;
 
     const newUser = {
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     };
 
     try {
-      await connect();
+      await Connect();
       await User.create(newUser);
       console.log("Created new user:", newUser);
     } catch (error) {
@@ -72,8 +72,8 @@ export async function POST(req: Request) {
     }
   }
 
-  console.log(`Webhook with ID: ${id} and type of ${eventType}`);
-  console.log("Webhook body ", body);
+  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+  console.log("Webhook body:", body);
 
   return new Response("", { status: 200 });
 }
