@@ -1,17 +1,19 @@
-import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { Connect } from "@/lib/connect";
-import User from "@/Models/UserSchema";
+import { MongoClient } from "mongodb";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const DATABASE_URL = process.env.DATABASE_URL;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
       "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
     );
+  }
+  if (!DATABASE_URL) {
+    throw new Error("Please add DATABASE_URL to .env or .env.local");
   }
 
   const headerPayload = headers();
@@ -20,10 +22,9 @@ export async function POST(req: Request) {
   const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return NextResponse.json(
-      { error: "Error occurred -- no svix headers" },
-      { status: 400 }
-    );
+    return new Response("Error occurred -- no svix headers", {
+      status: 400,
+    });
   }
 
   const payload = await req.json();
@@ -41,31 +42,41 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return NextResponse.json({ error: "Error occurred" }, { status: 400 });
+    return new Response("Error occurred", {
+      status: 400,
+    });
   }
 
-  const { id } = evt.data;
+  const { id, ...userData } = evt.data;
   const eventType = evt.type;
 
+  console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
+  console.log("Webhook body:", body);
+
   if (eventType === "user.created") {
-    const { id, email_addresses } = evt.data;
-
-    const newUser = {
-      clerkUserId: id,
-      emailAddresses: email_addresses[0].email_address,
-    };
-
     try {
-      await Connect();
-      await User.create(newUser);
-      console.log("Created new user:", newUser);
-    } catch (error) {
-      console.log("Failed to create new user", error);
+      const client = new MongoClient(DATABASE_URL);
+      await client.connect();
+      const db = client.db(); // Connect to the default database
+      const usersCollection = db.collection("users");
+
+      const newUser = {
+        clerkId: id,
+        ...userData,
+        createdAt: new Date(),
+      };
+
+      await usersCollection.insertOne(newUser);
+      await client.close();
+
+      console.log("New user saved to MongoDB:", newUser);
+    } catch (err) {
+      console.error("Error saving new user to MongoDB:", err);
+      return new Response("Error occurred while saving user", {
+        status: 500,
+      });
     }
   }
 
-  //   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
-  //   console.log("Webhook body:", body);
-
-  return NextResponse.json({}, { status: 200 });
+  return new Response("", { status: 200 });
 }
