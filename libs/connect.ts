@@ -10,5 +10,3 @@ export async function connect(): Promise<void> {
     console.log("Failed to connect", error);
   }
 }
-
-export default connect();
