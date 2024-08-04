@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { Connect } from "@/libs/connect";
+import { Connect } from "@/lib/connect";
 import User from "@/Models/UserSchema";
 
 export async function POST(req: Request) {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  if (evt.type === "user.created") {
+  if (eventType === "user.created") {
     const { id, email_addresses } = evt.data;
 
     const newUser = {
@@ -64,8 +64,8 @@ export async function POST(req: Request) {
     }
   }
 
-  console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
+  //   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
+  //   console.log("Webhook body:", body);
 
   return NextResponse.json({}, { status: 200 });
 }
