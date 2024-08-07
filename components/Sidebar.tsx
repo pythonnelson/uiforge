@@ -24,7 +24,7 @@ const Sidebar = () => {
     <div
       className={`${
         openSideBar ? "w-[320px] p-6" : "w-[100px]"
-      } h-screen pt-12 relative transition-all duration-300 bg-slate-100`}
+      } h-screen pt-12 relative transition-all duration-300 bg-slate-100 dark:bg-slate-900`}
     >
       <Arrow />
       <Logo />
@@ -46,7 +46,9 @@ const Sidebar = () => {
               } p-[7px] select-none cursor-pointer rounded-lg flex gap-2 w-[65%] items-center`}
             >
               {item.icon}
-              {openSideBar && <span>{item.name}</span>}
+              {openSideBar && (
+                <span className="dark:text-slate-100">{item.name}</span>
+              )}
             </div>
           );
         })}

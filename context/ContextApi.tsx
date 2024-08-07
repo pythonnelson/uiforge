@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { FaList } from "react-icons/fa";
 import { HiOutlineViewGridAdd } from "react-icons/hi";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 export interface MenuItem {
   id: string;
