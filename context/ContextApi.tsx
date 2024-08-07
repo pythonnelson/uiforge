@@ -32,6 +32,14 @@ interface AppContextType {
     showSearchBar: boolean;
     setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  isMobileViewObject: {
+    isMobileView: boolean;
+    setIsMobileView: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  showSideBarObject: {
+    showSideBar: boolean;
+    setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 // Create a default state
@@ -47,6 +55,14 @@ const defaultState: AppContextType = {
   showSearchBarObject: {
     showSearchBar: false,
     setShowSearchBar: () => {},
+  },
+  isMobileViewObject: {
+    isMobileView: false,
+    setIsMobileView: () => {},
+  },
+  showSideBarObject: {
+    showSideBar: false,
+    setShowSideBar: () => {},
   },
 };
 
@@ -82,7 +98,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     const storedValue = localStorage.getItem("openSideBar");
     return storedValue !== null ? JSON.parse(storedValue) : true;
   });
+
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [showSideBar, setShowSideBar] = useState(true);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobileView(window.innerWidth <= 640);
+    }
+
+    // Initial check
+    handleResize();
+
+    // Listen for window resize events
+    window.addEventListener("resize", handleResize);
+
+    // Clean up on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
@@ -95,6 +129,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         menuItemsObject: { menuItems, setMenuItems },
         openSideBarObject: { openSideBar, setOpenSideBar },
         showSearchBarObject: { showSearchBar, setShowSearchBar },
+        isMobileViewObject: { isMobileView, setIsMobileView },
+        showSideBarObject: { showSideBar, setShowSideBar },
       }}
     >
       {children}

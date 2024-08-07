@@ -4,12 +4,17 @@ import { MenuItem, useAppContext } from "@/context/ContextApi";
 import Arrow from "./Arrow";
 import Logo from "./Logo";
 import LogoutButton from "./LogoutButton";
+import { useEffect, useRef } from "react";
 
 const Sidebar = () => {
   const {
     menuItemsObject: { menuItems, setMenuItems },
-    openSideBarObject: { openSideBar },
+    openSideBarObject: { openSideBar, setOpenSideBar },
+    isMobileViewObject: { isMobileView },
+    showSideBarObject: { showSideBar, setShowSideBar },
   } = useAppContext();
+
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function handleLinkClink(item: MenuItem) {
     setMenuItems((prevMenuItems) =>
@@ -20,18 +25,53 @@ const Sidebar = () => {
       )
     );
   }
+
+  useEffect(() => {
+    function handleClickOutSide(event: MouseEvent) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        isMobileView
+      ) {
+        setShowSideBar(false);
+      }
+    }
+    if (showSideBar) {
+      document.addEventListener("mousedown", handleClickOutSide);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  }, [showSideBar, setShowSideBar, isMobileView]);
+
+  useEffect(() => {
+    if (isMobileView) {
+      setOpenSideBar(true);
+      setShowSideBar(false);
+    } else {
+      setShowSideBar(true);
+    }
+  }, [isMobileView]);
+
   return (
     <div
+      ref={menuRef}
+      style={{ position: isMobileView ? "fixed" : "relative" }}
       className={`${
-        openSideBar ? "w-[320px] p-6" : "w-[100px]"
-      } h-screen pt-12 relative transition-all duration-300 bg-slate-100 dark:bg-slate-900`}
+        openSideBar ? "w-[300px] p-6" : "w-[100px] p-4"
+      } h-screen pt-12 z-50 transition-all duration-300 bg-white ${
+        showSideBar ? "block" : "hidden"
+      } dark:bg-slate-900`}
     >
       <Arrow />
       <Logo />
 
       <div
         className={`mt-20 ${
-          openSideBar ? "ml-0" : "ml-3 items-center justify-center"
+          openSideBar ? "ml-0" : "ml-3"
         } flex-grow flex flex-col gap-2 space-y-5 text-[15px]`}
       >
         {menuItems.map((item, index) => {

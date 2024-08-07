@@ -26,7 +26,7 @@ export function InputSearchBar() {
         ref={inputRef}
         type="text"
         placeholder="Search Component here..."
-        className="w-full dark:bg-slate-950 outline-none text-[13px] placeholder:text-slate-400"
+        className="w-full dark:bg-slate-950 outline-none text-[13px] placeholder:text-slate-400 bg-slate-100 focus:bg-slate-100 focus:outline-none"
       />
       <X
         className="w-4 h-4 flex-shrink-0 text-slate-500 text-[10px] cursor-pointer"
