@@ -95,8 +95,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   ]);
 
   const [openSideBar, setOpenSideBar] = useState(() => {
-    const storedValue = localStorage.getItem("openSideBar");
-    return storedValue !== null ? JSON.parse(storedValue) : true;
+    if (typeof window !== "undefined") {
+      const storedValue = localStorage.getItem("openSideBar");
+      return storedValue !== null ? JSON.parse(storedValue) : true;
+    } else {
+      return true;
+    }
   });
 
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -120,7 +124,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
 
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
-    localStorage.setItem("openSideBar", JSON.stringify(openSideBar));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("openSideBar", JSON.stringify(openSideBar));
+    }
   }, [openSideBar]);
 
   return (
