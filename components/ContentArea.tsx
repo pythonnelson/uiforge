@@ -6,6 +6,7 @@ import { useAppContext } from "@/context/ContextApi";
 import Overlay from "./Overlay";
 import StatsCard from "./StatsCard";
 import AllProjects from "./Projects/AllProjects";
+import FavoriteComponent from "./Favorites/FavoriteComponent";
 
 const ContentArea = () => {
   const {
@@ -14,10 +15,11 @@ const ContentArea = () => {
   } = useAppContext();
 
   return (
-    <div className="w-full bg-slate-50 dark:bg-slate-900 h-screen p-5">
+    <div className="w-full bg-slate-50 dark:bg-slate-900 p-5">
       <TopBar />
       <StatsCard />
       <AllProjects />
+      <FavoriteComponent />
       {isMobileView && showSideBar && <Overlay />}
     </div>
   );
