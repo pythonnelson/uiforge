@@ -1,4 +1,7 @@
+"use client";
+
 import { useAppContext } from "@/context/ContextApi";
+import Link from "next/link";
 import React from "react";
 import { SiReact } from "react-icons/si";
 
@@ -7,7 +10,8 @@ const Logo = () => {
     openSideBarObject: { openSideBar },
   } = useAppContext();
   return (
-    <div
+    <Link
+      href="/"
       className={`${
         openSideBar
           ? "flex gap-2 items-center"
@@ -24,7 +28,7 @@ const Logo = () => {
           <span className="text-[#1B6A88] font-extrabold">Forge</span>
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

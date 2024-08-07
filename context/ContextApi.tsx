@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { FaList } from "react-icons/fa";
 import { HiOutlineViewGridAdd } from "react-icons/hi";
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 export interface MenuItem {
   id: string;
@@ -29,6 +28,10 @@ interface AppContextType {
     openSideBar: boolean;
     setOpenSideBar: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  showSearchBarObject: {
+    showSearchBar: boolean;
+    setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 // Create a default state
@@ -40,6 +43,10 @@ const defaultState: AppContextType = {
   openSideBarObject: {
     openSideBar: true,
     setOpenSideBar: () => {},
+  },
+  showSearchBarObject: {
+    showSearchBar: false,
+    setShowSearchBar: () => {},
   },
 };
 
@@ -75,6 +82,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     const storedValue = localStorage.getItem("openSideBar");
     return storedValue !== null ? JSON.parse(storedValue) : true;
   });
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
@@ -86,6 +94,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         menuItemsObject: { menuItems, setMenuItems },
         openSideBarObject: { openSideBar, setOpenSideBar },
+        showSearchBarObject: { showSearchBar, setShowSearchBar },
       }}
     >
       {children}
