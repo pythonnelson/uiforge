@@ -4,6 +4,7 @@ import React from "react";
 import TopBar from "./TopBar";
 import { useAppContext } from "@/context/ContextApi";
 import Overlay from "./Overlay";
+import StatsCard from "./StatsCard";
 
 const ContentArea = () => {
   const {
@@ -11,12 +12,10 @@ const ContentArea = () => {
     isMobileViewObject: { isMobileView },
   } = useAppContext();
 
-  console.log("Mobile View", isMobileView);
-  console.log("Show Sidebar", showSideBar);
-
   return (
-    <div className="w-full bg-slate-50 h-screen p-5">
+    <div className="w-full bg-slate-50 dark:bg-slate-900 h-screen p-5">
       <TopBar />
+      <StatsCard />
       {isMobileView && showSideBar && <Overlay />}
     </div>
   );

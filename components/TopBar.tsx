@@ -6,7 +6,7 @@ import ProfileAccount from "./ProfileAccount";
 
 const TopBar = () => {
   return (
-    <div className="bg-white rounded-md dark:bg-slate-900 w-full p-[11px] px-6 flex justify-between items-center">
+    <div className="bg-white rounded-md dark:bg-slate-950 w-full p-[11px] px-6 flex justify-between items-center">
       <DashboardText />
       <SearchBar />
       <div className="flex gap-4 items-center">

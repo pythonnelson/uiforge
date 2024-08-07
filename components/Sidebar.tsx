@@ -64,7 +64,7 @@ const Sidebar = () => {
         openSideBar ? "w-[300px] p-6" : "w-[100px] p-4"
       } h-screen pt-12 z-50 transition-all duration-300 bg-white ${
         showSideBar ? "block" : "hidden"
-      } dark:bg-slate-900`}
+      } dark:bg-slate-950`}
     >
       <Arrow />
       <Logo />
