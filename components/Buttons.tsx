@@ -9,20 +9,20 @@ const Buttons = () => {
       {!userId ? (
         <>
           <Link href={"/sign-in"}>
-            <button className="max-sm:w-full text-sm border font-bold border-[#1d7572] text-white bg-[#1d7572] p-[8px] rounded-md px-6 hover:bg-white hover:border-[#1d7572] transition-all duration-500 hover:text-[#1d7572]">
+            <button className="max-sm:w-full text-sm border font-bold border-[#1B6A88] text-white bg-[#1B6A88] p-[8px] rounded-md px-6 hover:bg-white hover:border-[#1B6A88] transition-all duration-500 hover:text-[#1B6A88]">
               Sign In
             </button>
           </Link>
 
           <Link href={"/sign-up"}>
-            <button className="max-sm:w-full text-sm border border-[#1d7572] font-bold text-[#1d7572] p-[8px] rounded-md px-6 hover:bg-[#1d7572] hover:text-white transition-all duration-500">
+            <button className="max-sm:w-full text-sm border border-[#1B6A88] font-bold text-[#1B6A88] p-[8px] rounded-md px-6 hover:bg-[#1B6A88] hover:text-white transition-all duration-500">
               Sign Up
             </button>
           </Link>
         </>
       ) : (
         <Link href={"/dashboard"}>
-          <button className="max-sm:w-full text-sm border font-bold border-[#1d7572] text-white bg-[#1d7572] p-[8px] rounded-md px-6 hover:bg-white hover:border-[#1d7572] transition-all duration-500 hover:text-[#1d7572]">
+          <button className="max-sm:w-full text-sm border font-bold border-[#1B6A88] text-white bg-[#1B6A88] p-[8px] rounded-md px-6 hover:bg-white hover:border-[#1B6A88] transition-all duration-500 hover:text-[#1B6A88]">
             Dashboard
           </button>
         </Link>

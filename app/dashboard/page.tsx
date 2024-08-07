@@ -1,15 +1,14 @@
+import Sidebar from "@/components/Sidebar";
+import { AppProvider } from "@/context/ContextApi";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <AppProvider>
+        <Sidebar />
+      </AppProvider>
     </div>
   );
 };

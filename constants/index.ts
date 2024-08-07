@@ -1,4 +1,6 @@
+import { Heart } from "lucide-react";
 import { FaGitlab, FaList } from "react-icons/fa";
+import { HiOutlineViewGridAdd } from "react-icons/hi";
 import { HiMiniCodeBracket } from "react-icons/hi2";
 
 export const features = [
@@ -22,5 +24,26 @@ export const features = [
     icon: FaGitlab,
     description:
       "Track changes and maintain different versions of your components. Revert to previous versions if needed and keep a history of modifications.",
+  },
+];
+
+export const Links = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: FaList,
+    isSelected: true,
+  },
+  {
+    name: "Projects",
+    path: "/projects",
+    icon: HiOutlineViewGridAdd,
+    isSelected: false,
+  },
+  {
+    name: "Favourites",
+    path: "/favourites",
+    icon: Heart,
+    isSelected: false,
   },
 ];

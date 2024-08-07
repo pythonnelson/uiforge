@@ -6,7 +6,7 @@ const CTASection = () => {
     <div className="flex flex-col max-16 items-center mt-[120px] gap-6">
       <h2 className="font-bold text-2xl text-center">
         Craft Your Perfect{" "}
-        <span className="text-[#1d7572] underline">UI with Precision</span> and
+        <span className="text-[#1B6A88] underline">UI with Precision</span> and
         Ease
       </h2>
       <p className="text-center text-[15px] w-[1000px] max-sm:w-full text-slate-500">
@@ -23,7 +23,7 @@ const CTASection = () => {
 
       <button
         type="button"
-        className="block text-sm border border-[#1d7572] font-bold text-[#1d7572] px-9 py-3 rounded-md hover:bg-[#1d7572] hover:text-white transition-all duration-500"
+        className="block text-sm border border-[#1B6A88] font-bold text-[#1B6A88] px-9 py-3 rounded-md hover:bg-[#1B6A88] hover:text-white transition-all duration-500"
       >
         Let&apos;s Get You Started
       </button>
