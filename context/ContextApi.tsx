@@ -1,6 +1,6 @@
 "use client";
 
-import { allProjectsData, Project } from "@/constants/data";
+import { allProjectsData, Component, Project } from "@/constants/data";
 import { Heart } from "lucide-react";
 import React, {
   createContext,
@@ -45,6 +45,10 @@ interface AppContextType {
     allProjects: Project[];
     setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>;
   };
+  allFavoriteComponentsObjects: {
+    allFavoriteComponents: Component[];
+    setAllFavoriteComponents: React.Dispatch<React.SetStateAction<Component[]>>;
+  };
   isLoadingObject: {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -76,6 +80,10 @@ const defaultState: AppContextType = {
   allProjectsDataObject: {
     allProjects: [],
     setAllProjects: () => {},
+  },
+  allFavoriteComponentsObjects: {
+    allFavoriteComponents: [],
+    setAllFavoriteComponents: () => {},
   },
   isLoadingObject: {
     isLoading: true,
@@ -124,6 +132,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [isMobileView, setIsMobileView] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
+  const [allFavoriteComponents, setAllFavoriteComponents] = useState<
+    Component[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -153,6 +164,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     fetchAllProjects();
   });
 
+  // Get all Favorite Projects
+  useEffect(() => {
+    if (allProjects.length > 0) {
+      const favoriteProjects = allProjects.flatMap((favoriteProject) =>
+        favoriteProject.components.filter((component) => component.isFavorite)
+      );
+      setAllFavoriteComponents(favoriteProjects);
+    }
+  }, [allProjects]);
+
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -169,6 +190,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         isMobileViewObject: { isMobileView, setIsMobileView },
         showSideBarObject: { showSideBar, setShowSideBar },
         allProjectsDataObject: { allProjects, setAllProjects },
+        allFavoriteComponentsObjects: {
+          allFavoriteComponents,
+          setAllFavoriteComponents,
+        },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >

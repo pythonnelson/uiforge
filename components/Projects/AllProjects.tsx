@@ -32,7 +32,11 @@ const AllProjects = () => {
       )}
 
       {!isLoading && allProjects.length === 0 ? (
-        <EmptyComponent />
+        <EmptyComponent
+          title="Please click the button below to create your first project"
+          icon={<AddIcon fontSize="small" />}
+          buttonText="New Project"
+        />
       ) : (
         <div className="flex flex-wrap gap-4 mt-7 max-sm:grid max-sm:grid-cols-1">
           {allProjects?.map((project, index) => {

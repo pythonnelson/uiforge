@@ -5,7 +5,7 @@ export interface Component {
   name: string;
   projectName: string;
   code: string;
-  isFavorited: boolean;
+  isFavorite: boolean;
   createdAt: string;
 }
 
@@ -31,7 +31,7 @@ export const allProjectsData: Project[] = [
         name: "Form 1",
         projectName: "Forms",
         code: "",
-        isFavorited: false,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -39,7 +39,7 @@ export const allProjectsData: Project[] = [
         name: "Form 2",
         projectName: "Forms",
         code: "",
-        isFavorited: false,
+        isFavorite: true,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -47,7 +47,7 @@ export const allProjectsData: Project[] = [
         name: "Form 3",
         projectName: "Forms",
         code: "",
-        isFavorited: false,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
     ],
@@ -64,7 +64,7 @@ export const allProjectsData: Project[] = [
         name: "Button 1",
         projectName: "Buttons",
         code: "",
-        isFavorited: false,
+        isFavorite: true,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -72,7 +72,7 @@ export const allProjectsData: Project[] = [
         name: "Button 2",
         projectName: "Buttons",
         code: "",
-        isFavorited: false,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -80,7 +80,7 @@ export const allProjectsData: Project[] = [
         name: "Button 3",
         projectName: "Buttons",
         code: "",
-        isFavorited: false,
+        isFavorite: true,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
     ],
@@ -97,7 +97,7 @@ export const allProjectsData: Project[] = [
         name: "Card 1",
         projectName: "Cards",
         code: "",
-        isFavorited: false,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -105,7 +105,7 @@ export const allProjectsData: Project[] = [
         name: "Card 2",
         projectName: "Cards",
         code: "",
-        isFavorited: false,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -113,7 +113,7 @@ export const allProjectsData: Project[] = [
         name: "Card 3",
         projectName: "Cards",
         code: "",
-        isFavorited: true,
+        isFavorite: false,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
       {
@@ -121,7 +121,7 @@ export const allProjectsData: Project[] = [
         name: "Card 4",
         projectName: "Cards",
         code: "",
-        isFavorited: true,
+        isFavorite: true,
         createdAt: "2022-01-01T12:00:00.000Z",
       },
     ],

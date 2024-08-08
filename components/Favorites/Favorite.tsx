@@ -1,17 +1,19 @@
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Component } from "@/constants/data";
+import { formatDate } from "@/lib/formatDate";
 
-const Favorite = () => {
+const Favorite = ({ component }: { component: Component }) => {
   return (
     <div className="grid grid-cols-4 text-sm items-center rounded-lg p-2 max-sm:grid-cols-2">
       <span className="hover:text-[#1b6a88] cursor-pointer transition-all duration-300">
-        UI Form
+        {component.name}
       </span>
-      <span className="max-sm:hidden">06 August 2024</span>
+      <span className="max-sm:hidden">{formatDate(component.createdAt)}</span>
       <span className="justify-self-start max-sm:hidden">
         <span className="inline-block rounded-2xl bg-[#1b6a88] text-white text-[12px] px-4 py-1 whitespace-nowrap">
-          Button
+          {component.projectName}
         </span>
       </span>
       <div className="flex gap-2">
