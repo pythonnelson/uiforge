@@ -4,9 +4,9 @@ import React from "react";
 import TopBar from "./TopBar";
 import { useAppContext } from "@/context/ContextApi";
 import Overlay from "./Overlay";
-import StatsCard from "./StatsCard";
 import AllProjects from "./Projects/AllProjects";
 import FavoriteComponent from "./Favorites/FavoriteComponent";
+import StatsCard from "./Categories/StatsCard";
 
 const ContentArea = () => {
   const {
