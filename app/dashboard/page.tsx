@@ -1,12 +1,21 @@
+"use client";
+
 import ContentArea from "@/components/ContentArea";
+import DashboardOverlay from "@/components/DashboardOverlay";
+import AddProjectWindow from "@/components/Modals/AddProjectWindow";
 import Sidebar from "@/components/Sidebar";
-import { AppProvider } from "@/context/ContextApi";
+import { AppProvider, useAppContext } from "@/context/ContextApi";
 import React from "react";
 
-const page = () => {
+const Dashboard = () => {
+  const {
+    openProjectWindowObject: { openProjectWindow },
+  } = useAppContext();
   return (
-    <div className="flex h-screen">
+    <div className="flex poppins h-screen relative">
       <AppProvider>
+        <AddProjectWindow />
+        {openProjectWindow && <DashboardOverlay />}
         <Sidebar />
         <div className="flex-grow">
           <ContentArea />
@@ -16,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Dashboard;

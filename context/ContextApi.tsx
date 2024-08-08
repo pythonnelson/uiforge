@@ -49,6 +49,10 @@ interface AppContextType {
     allFavoriteComponents: Component[];
     setAllFavoriteComponents: React.Dispatch<React.SetStateAction<Component[]>>;
   };
+  openProjectWindowObject: {
+    openProjectWindow: boolean;
+    setOpenProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   isLoadingObject: {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -84,6 +88,10 @@ const defaultState: AppContextType = {
   allFavoriteComponentsObjects: {
     allFavoriteComponents: [],
     setAllFavoriteComponents: () => {},
+  },
+  openProjectWindowObject: {
+    openProjectWindow: false,
+    setOpenProjectWindow: () => {},
   },
   isLoadingObject: {
     isLoading: true,
@@ -135,6 +143,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [allFavoriteComponents, setAllFavoriteComponents] = useState<
     Component[]
   >([]);
+  const [openProjectWindow, setOpenProjectWindow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -194,6 +203,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
           allFavoriteComponents,
           setAllFavoriteComponents,
         },
+        openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >
