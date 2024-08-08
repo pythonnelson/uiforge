@@ -10,7 +10,7 @@ const FavoriteComponent = () => {
       <Header
         title="Favorites"
         buttonTitle="View All"
-        icon={<FavoriteIcon fontSize="small" />}
+        icon={<FavoriteIcon fontSize="small" className="text-red-500" />}
         buttonIcon={<VisibilityIcon fontSize="small" />}
       />
 

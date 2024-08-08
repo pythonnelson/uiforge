@@ -1,5 +1,6 @@
 "use client";
 
+import { allProjectsData, Project } from "@/constants/data";
 import { Heart } from "lucide-react";
 import React, {
   createContext,
@@ -40,6 +41,14 @@ interface AppContextType {
     showSideBar: boolean;
     setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  allProjectsDataObject: {
+    allProjects: Project[];
+    setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+  };
+  isLoadingObject: {
+    isLoading: boolean;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 // Create a default state
@@ -63,6 +72,14 @@ const defaultState: AppContextType = {
   showSideBarObject: {
     showSideBar: false,
     setShowSideBar: () => {},
+  },
+  allProjectsDataObject: {
+    allProjects: [],
+    setAllProjects: () => {},
+  },
+  isLoadingObject: {
+    isLoading: true,
+    setIsLoading: () => {},
   },
 };
 
@@ -106,7 +123,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Resize window
   useEffect(() => {
     function handleResize() {
       setIsMobileView(window.innerWidth <= 640);
@@ -121,6 +141,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     // Clean up on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Simulate the fetch using setTimeOut
+  useEffect(() => {
+    function fetchAllProjects() {
+      setTimeout(() => {
+        setAllProjects(allProjectsData);
+        setIsLoading(false);
+      }, 3000);
+    }
+    fetchAllProjects();
+  });
 
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
@@ -137,6 +168,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         showSearchBarObject: { showSearchBar, setShowSearchBar },
         isMobileViewObject: { isMobileView, setIsMobileView },
         showSideBarObject: { showSideBar, setShowSideBar },
+        allProjectsDataObject: { allProjects, setAllProjects },
+        isLoadingObject: { isLoading, setIsLoading },
       }}
     >
       {children}

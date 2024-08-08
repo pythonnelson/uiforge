@@ -1,4 +1,6 @@
+import { useAppContext } from "@/context/ContextApi";
 import React from "react";
+import AllProjects from "./AllProjects";
 
 type HeaderProps = {
   title: string;
@@ -15,6 +17,7 @@ const Header = ({
   icon,
   buttonIcon,
 }: HeaderProps) => {
+  // TODO: Conditionally display the button based on the card type: Project/Favorite
   return (
     <div>
       <span className="text-lg flex gap-2 justify-between items-center">

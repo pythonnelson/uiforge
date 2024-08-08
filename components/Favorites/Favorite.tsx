@@ -18,7 +18,7 @@ const Favorite = () => {
         <div className="bg-[#1b6a88] rounded-full w-7 h-7 flex items-center justify-center hover:bg-[#0e485f] transition-all duration-300 cursor-pointer">
           <EditIcon fontSize="small" className="text-white text-[14px]" />
         </div>
-        <div className="bg-[#f00a2d] rounded-full w-7 h-7 flex items-center justify-center hover:bg-[#a8041d] transition-all duration-300 cursor-pointer">
+        <div className="bg-red-500 rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-700 transition-all duration-300 cursor-pointer">
           <DeleteForeverIcon
             fontSize="small"
             className="text-white text-[14px]"
