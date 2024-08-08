@@ -5,12 +5,19 @@ import CategoryIcon from "@mui/icons-material/Category";
 import CloseIcon from "@mui/icons-material/Close";
 import IceSkatingIcon from "@mui/icons-material/IceSkating";
 import { useAppContext } from "@/context/ContextApi";
-// import { ShieldCloseIcon } from "lucide-react";
 
-const AddProjectWindow = () => {
+const AddProjectWindow = ({
+  selectedIcon,
+}: {
+  selectedIcon: {
+    icon: React.ReactNode;
+    name: string;
+  };
+}) => {
   const {
     isMobileViewObject: { isMobileView },
     openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
+    openIconWindowObject: { openIconWindow, setOpenIconWindow },
   } = useAppContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,9 +62,19 @@ const AddProjectWindow = () => {
             placeholder="Enter Project Name"
             className="p-[10px] text-[12px] w-full rounded-md border outline-none"
           />
-          <div className="w-12 h-10 text-white flex items-center justify-center bg-[#abe1f7] rounded-lg cursor-pointer">
-            <IceSkatingIcon sx={{ fontSize: 18 }} className="text-[18px]" />
+          {/* ===== ICON ===== */}
+          <div
+            onClick={() => setOpenIconWindow(true)}
+            className="w-12 h-10 text-white flex items-center justify-center bg-[#1b6a88] rounded-lg cursor-pointer"
+          >
+            {selectedIcon?.icon ? (
+              selectedIcon?.icon
+            ) : (
+              <IceSkatingIcon sx={{ fontSize: 18 }} className="text-[18px]" />
+            )}
+            {/* <IceSkatingIcon sx={{ fontSize: 18 }} className="text-[18px]" /> */}
           </div>
+          {/* ===== ICON END ===== */}
         </div>
       </div>
       {/* ===== BODY END =====  */}

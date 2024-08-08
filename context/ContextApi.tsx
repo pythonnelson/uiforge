@@ -53,6 +53,10 @@ interface AppContextType {
     openProjectWindow: boolean;
     setOpenProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  openIconWindowObject: {
+    openIconWindow: boolean;
+    setOpenIconWindow: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   isLoadingObject: {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -92,6 +96,10 @@ const defaultState: AppContextType = {
   openProjectWindowObject: {
     openProjectWindow: false,
     setOpenProjectWindow: () => {},
+  },
+  openIconWindowObject: {
+    openIconWindow: false,
+    setOpenIconWindow: () => {},
   },
   isLoadingObject: {
     isLoading: true,
@@ -144,6 +152,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     Component[]
   >([]);
   const [openProjectWindow, setOpenProjectWindow] = useState(false);
+  const [openIconWindow, setOpenIconWindow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -204,6 +213,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
           setAllFavoriteComponents,
         },
         openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
+        openIconWindowObject: { openIconWindow, setOpenIconWindow },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >
