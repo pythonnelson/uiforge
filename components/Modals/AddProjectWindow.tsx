@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import CloseIcon from "@mui/icons-material/Close";
 import IceSkatingIcon from "@mui/icons-material/IceSkating";
 import { useAppContext } from "@/context/ContextApi";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const AddProjectWindow = ({
   selectedIcon,
@@ -18,7 +19,11 @@ const AddProjectWindow = ({
     isMobileViewObject: { isMobileView },
     openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
     openIconWindowObject: { openIconWindow, setOpenIconWindow },
+    allProjectsDataObject: { allProjects },
   } = useAppContext();
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [projectName, setProjectName] = useState<string>("");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,11 +31,36 @@ const AddProjectWindow = ({
     inputRef.current?.focus();
   }, [openProjectWindow]);
 
+  function handleInputUpdate(e: React.ChangeEvent<HTMLInputElement>) {
+    setErrorMessage("");
+    setProjectName(e.target.value);
+  }
+
+  function addNewProject() {
+    // Check if the project name is not empty
+    if (projectName.trim() === "") {
+      setErrorMessage("Project name cannot be empty");
+      inputRef.current?.focus();
+      return;
+    }
+
+    // Check if the project name already exists
+    if (
+      allProjects.find(
+        (project) =>
+          project.name.toLocaleLowerCase() === projectName.toLocaleLowerCase()
+      )
+    ) {
+      setErrorMessage("Project name already exists");
+      inputRef.current?.focus();
+      return;
+    }
+  }
   return (
     <div
       className={`${
         isMobileView ? "w-[80%]" : "w-[40%]"
-      } h-[288px] border border-slate-50 bg-white dark:bg-slate-950 rounded-md shadow-md absolute left-1/2 top-24 -translate-x-1/2 z-50 ${
+      } border border-slate-50 bg-white dark:bg-slate-950 rounded-md shadow-md absolute left-1/2 top-24 -translate-x-1/2 z-50 ${
         openProjectWindow ? "absolute" : "hidden"
       }`}
     >
@@ -58,10 +88,13 @@ const AddProjectWindow = ({
         <span className="text-[13px] font-medium">Project Name</span>
         <div className="flex gap-3">
           <input
+            value={projectName}
+            onChange={handleInputUpdate}
             ref={inputRef}
             placeholder="Enter Project Name"
             className="p-[10px] text-[12px] w-full rounded-md border outline-none"
           />
+
           {/* ===== ICON ===== */}
           <div
             onClick={() => setOpenIconWindow(true)}
@@ -76,11 +109,21 @@ const AddProjectWindow = ({
           </div>
           {/* ===== ICON END ===== */}
         </div>
+        {/* ===== ERROR MESSAGE ===== */}
+        <div
+          className={`flex items-center gap-2 mt-1 ${
+            errorMessage ? "" : "hidden"
+          }`}
+        >
+          <ErrorOutlineIcon sx={{ fontSize: 14 }} className="text-red-500" />
+          <span className="text-[12px] text-red-500 mt-1">{errorMessage}</span>
+        </div>
+        {/* ===== ERROR MESSAGE END ===== */}
       </div>
       {/* ===== BODY END =====  */}
 
       {/* ===== FOOTER ===== */}
-      <div className="w-full mt-11 flex gap-3 justify-end px-7 items-center">
+      <div className="w-full mt-11 mb-5 flex gap-3 justify-end px-7 items-center">
         {/* ===== CANCEL BUTTON ===== */}
         <button
           onClick={() => setOpenProjectWindow(false)}
@@ -89,7 +132,10 @@ const AddProjectWindow = ({
           Cancel
         </button>
 
-        <button className="bg-[#1b6a88] hover:bg-[#0e475e] text-white text-[12px] p-2 px-3 rounded-md transition-all duration-300">
+        <button
+          onClick={addNewProject}
+          className="bg-[#1b6a88] hover:bg-[#0e475e] text-white text-[12px] p-2 px-3 rounded-md transition-all duration-300"
+        >
           Add Project
         </button>
         {/* ===== CANCEL BUTTON END ===== */}
