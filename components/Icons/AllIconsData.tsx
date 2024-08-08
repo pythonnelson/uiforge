@@ -78,7 +78,7 @@ import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import AddToQueueIcon from "@mui/icons-material/AddToQueue";
-import AddChartIcon from "@mui/icons-material/AddChart";
+import AddChartIcon from "@mui/icons-material/Addchart";
 import AdfScannerIcon from "@mui/icons-material/AdfScanner";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
@@ -126,7 +126,7 @@ import ApiIcon from "@mui/icons-material/Api";
 import AppBlockingIcon from "@mui/icons-material/AppBlocking";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AppSettingsAltIcon from "@mui/icons-material/AppSettingsAlt";
-import AppShortCutIcon from "@mui/icons-material/AppShortCut";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AppleIcon from "@mui/icons-material/Apple";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import AppsIcon from "@mui/icons-material/Apps";
@@ -844,8 +844,8 @@ export const allIconsArray: IconData[] = [
   },
   {
     id: 117,
-    icon: <AppShortCutIcon className="text-[20px]" />,
-    name: "AppShortCutIcon",
+    icon: <ArrowBackIosIcon className="text-[20px]" />,
+    name: "ArrowBackIosIcon",
     isSelected: false,
   },
   {
