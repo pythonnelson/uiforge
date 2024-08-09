@@ -1,6 +1,6 @@
 "use client";
 
-import ComponentPage from "@/components/ComponentPage";
+import ComponentPage from "@/components/ComponentPage/ComponentPage";
 import ContentArea from "@/components/ContentArea";
 import DashboardOverlay from "@/components/DashboardOverlay";
 import { IconData } from "@/components/Icons/AllIconsData";
