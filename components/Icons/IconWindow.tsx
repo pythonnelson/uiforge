@@ -13,7 +13,6 @@ const IconWindow = ({
 }) => {
   const {
     isMobileViewObject: { isMobileView },
-    openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
     openIconWindowObject: { openIconWindow, setOpenIconWindow },
   } = useAppContext();
   const [allIconsState, setAllIconsState] = useState<IconData[]>(allIconsArray);

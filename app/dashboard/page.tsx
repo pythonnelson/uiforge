@@ -1,12 +1,13 @@
 "use client";
 
+import ComponentPage from "@/components/ComponentPage";
 import ContentArea from "@/components/ContentArea";
 import DashboardOverlay from "@/components/DashboardOverlay";
 import { IconData } from "@/components/Icons/AllIconsData";
 import IconWindow from "@/components/Icons/IconWindow";
 import AddProjectWindow from "@/components/Modals/AddProjectWindow";
 import Sidebar from "@/components/Sidebar";
-import { AppProvider, useAppContext } from "@/context/ContextApi";
+import { useAppContext } from "@/context/ContextApi";
 import CodeIcon from "@mui/icons-material/Code";
 import React, { useState } from "react";
 
@@ -18,6 +19,7 @@ interface SelectedIcon {
 const Dashboard = () => {
   const {
     openProjectWindowObject: { openProjectWindow },
+    showComponentPageObject: { showComponentPage },
   } = useAppContext();
 
   const [selectedIcon, setSelectedIcon] = useState<SelectedIcon>({
@@ -31,15 +33,13 @@ const Dashboard = () => {
 
   return (
     <div className="flex poppins h-screen relative">
-      <AppProvider>
-        <IconWindow onUpdateIconSelected={getTheIconSelected} />
-        <AddProjectWindow selectedIcon={selectedIcon} />
-        {openProjectWindow && <DashboardOverlay />}
-        <Sidebar />
-        <div className="flex-grow">
-          <ContentArea />
-        </div>
-      </AppProvider>
+      <IconWindow onUpdateIconSelected={getTheIconSelected} />
+      <AddProjectWindow selectedIcon={selectedIcon} />
+      {openProjectWindow && <DashboardOverlay />}
+      <Sidebar />
+      <div className="flex-grow">
+        {!showComponentPage ? <ContentArea /> : <ComponentPage />}
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export function TextToIcon({
   text,
   size,
 }: {
-  text: string;
+  text: any;
   size?: "small" | "medium" | "large";
 }) {
   switch (text) {

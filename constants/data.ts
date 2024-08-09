@@ -13,7 +13,8 @@ export interface Project {
   _id: string;
   clerkUserId: string;
   name: string;
-  icon: string;
+  icon: React.ReactNode;
+  // icon: string;
   createdAt: string;
   components: Component[];
 }

@@ -6,6 +6,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import IceSkatingIcon from "@mui/icons-material/IceSkating";
 import { useAppContext } from "@/context/ContextApi";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import CheckIcon from "@mui/icons-material/Check";
+import { v4 as uuidv4 } from "uuid";
+import { Project } from "@/constants/data";
+import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
 const AddProjectWindow = ({
   selectedIcon,
@@ -15,11 +20,12 @@ const AddProjectWindow = ({
     name: string;
   };
 }) => {
+  const { user } = useUser();
   const {
     isMobileViewObject: { isMobileView },
     openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
     openIconWindowObject: { openIconWindow, setOpenIconWindow },
-    allProjectsDataObject: { allProjects },
+    allProjectsDataObject: { allProjects, setAllProjects },
   } = useAppContext();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -55,6 +61,35 @@ const AddProjectWindow = ({
       inputRef.current?.focus();
       return;
     }
+
+    // Add new project
+    const newProject: Project = {
+      _id: uuidv4(),
+      clerkUserId: user?.id as string,
+      // clerkUserId: "1",
+      name: projectName,
+      icon: selectedIcon.icon,
+      createdAt: new Date().toISOString(),
+      components: [],
+    };
+    try {
+      setAllProjects([...allProjects, newProject]);
+      toast.success("Projects created successfully", {
+        icon: <CheckIcon />,
+      });
+      setErrorMessage("");
+      setProjectName("");
+      setOpenProjectWindow(false);
+    } catch (error) {
+      toast.error("Failed to add project", {
+        icon: <ErrorOutlineIcon />,
+      });
+      console.log(error);
+    }
+    // allProjects.push(newProject);
+    // setOpenProjectWindow(false);
+    // setOpenIconWindow(false);
+    // setErrorMessage("");
   }
   return (
     <div
