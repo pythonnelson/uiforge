@@ -42,7 +42,7 @@ const ComponentHeader = () => {
         <SearchIcon className="text-slate-400 text-[19px]" />
         <input
           placeholder="Search for a component"
-          className="bg-slate-100 outline-none font-light text-[12px] w-full"
+          className="bg-slate-100 dark:text-slate-800 outline-none font-light text-[12px] w-full"
         />
         {/* ===== CLOSE ICON ===== */}
         <div className="absolute right-3 top-[13px] cursor-pointer w-5 h-5 flex justify-center items-center bg-slate-300 rounded-full">
@@ -54,10 +54,14 @@ const ComponentHeader = () => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <button className="bg-[#1b6a88] text-[12px] h-[33px] text-white px-3 rounded-md">
-          <AddOutlinedIcon sx={{ fontSize: 16 }} className="" />
-          <span className="max-sm:hidden">Component</span>
-        </button>
+        {selectedProject !== undefined &&
+          selectedProject !== null &&
+          selectedProject.components?.length > 0 && (
+            <button className="bg-[#1b6a88] text-[12px] h-[33px] text-white px-3 rounded-md">
+              <AddOutlinedIcon sx={{ fontSize: 16 }} className="" />
+              <span className="max-sm:hidden">Add Component</span>
+            </button>
+          )}
         <div className="hidden max-sm:block">
           <MenuIcon
             onClick={() => setShowSideBar(true)}

@@ -8,23 +8,30 @@ import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 export function TextToIcon({
   text,
   size,
+  fontSize,
+  className,
 }: {
   text: any;
   size?: "small" | "medium" | "large";
+  fontSize?: number;
+  className?: string;
 }) {
+  // TODO: Add more icons here (All icons from the IconComponent should be here as well)
   switch (text) {
     case "CategoryIcon":
       return (
         <CategoryIcon
           fontSize={size}
-          className="bg-blue-200 text-[30px] text-[#1b6a88]"
+          sx={{ fontSize: fontSize }}
+          className={`bg-blue-200 text-[30px] text-[#1b6a88] ${className}`}
         />
       );
     case "DynamicFormIcon":
       return (
         <DynamicFormIcon
           fontSize={size}
-          className="bg-blue-200 text-[30px] text-[#1b6a88]"
+          sx={{ fontSize: fontSize }}
+          className={`bg-blue-200 text-[30px] text-[#1b6a88] ${className}`}
         />
       );
 
@@ -32,7 +39,8 @@ export function TextToIcon({
       return (
         <DialpadIcon
           fontSize={size}
-          className="bg-blue-200 text-[30px] text-[#1b6a88]"
+          sx={{ fontSize: fontSize }}
+          className={`bg-blue-200 text-[30px] text-[#1b6a88] ${className}`}
         />
       );
 
@@ -40,7 +48,8 @@ export function TextToIcon({
       return (
         <KeyboardCommandKeyIcon
           fontSize={size}
-          className="bg-blue-200 text-[30px] text-[#1b6a88]"
+          sx={{ fontSize: fontSize }}
+          className={`bg-blue-200 text-[30px] text-[#1b6a88] ${className}`}
         />
       );
 
@@ -48,7 +57,8 @@ export function TextToIcon({
       return (
         <SmartButtonIcon
           fontSize={size}
-          className="bg-blue-200 text-[30px] text-[#1b6a88]"
+          sx={{ fontSize: fontSize }}
+          className={`bg-blue-200 text-[30px] text-[#1b6a88] ${className}`}
         />
       );
   }

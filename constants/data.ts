@@ -75,45 +75,45 @@ export const allProjectsData: Project[] = [
     icon: "KeyboardCommandKeyIcon",
     createdAt: "2022-01-01T12:00:00.000Z",
     components: [
-      {
-        _id: uuidv4(),
-        name: "Button 1",
-        projectName: "Buttons",
-        code: `
-        <div className="p-4 bg-blue-50 rounded-lg w-full">
-            <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
-            <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
-        </div>
-    `,
-        isFavorite: true,
-        createdAt: "2022-01-01T12:00:00.000Z",
-      },
-      {
-        _id: uuidv4(),
-        name: "Button 2",
-        projectName: "Buttons",
-        code: `
-        <div className="p-4 bg-blue-50 rounded-lg w-full">
-            <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
-            <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
-        </div>
-    `,
-        isFavorite: false,
-        createdAt: "2022-01-01T12:00:00.000Z",
-      },
-      {
-        _id: uuidv4(),
-        name: "Button 3",
-        projectName: "Buttons",
-        code: `
-        <div className="p-4 bg-blue-50 rounded-lg w-full">
-            <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
-            <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
-        </div>
-    `,
-        isFavorite: true,
-        createdAt: "2022-01-01T12:00:00.000Z",
-      },
+      //   {
+      //     _id: uuidv4(),
+      //     name: "Button 1",
+      //     projectName: "Buttons",
+      //     code: `
+      //     <div className="p-4 bg-blue-50 rounded-lg w-full">
+      //         <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
+      //         <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
+      //     </div>
+      // `,
+      //     isFavorite: true,
+      //     createdAt: "2022-01-01T12:00:00.000Z",
+      //   },
+      //   {
+      //     _id: uuidv4(),
+      //     name: "Button 2",
+      //     projectName: "Buttons",
+      //     code: `
+      //     <div className="p-4 bg-blue-50 rounded-lg w-full">
+      //         <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
+      //         <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
+      //     </div>
+      // `,
+      //     isFavorite: false,
+      //     createdAt: "2022-01-01T12:00:00.000Z",
+      //   },
+      //   {
+      //     _id: uuidv4(),
+      //     name: "Button 3",
+      //     projectName: "Buttons",
+      //     code: `
+      //     <div className="p-4 bg-blue-50 rounded-lg w-full">
+      //         <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
+      //         <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
+      //     </div>
+      // `,
+      //     isFavorite: true,
+      //     createdAt: "2022-01-01T12:00:00.000Z",
+      //   },
     ],
   },
   {
