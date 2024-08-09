@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Header from "./Header";
 import ProjectsCard from "./ProjectCard";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import AddIcon from "@mui/icons-material/Add";

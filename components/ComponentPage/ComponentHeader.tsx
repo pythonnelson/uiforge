@@ -12,12 +12,16 @@ const ComponentHeader = () => {
   const {
     showComponentPageObject: { setShowComponentPage },
     showSideBarObject: { showSideBar, setShowSideBar },
+    selectedProjectObject: { selectedProject, setSelectedProject },
   } = useAppContext();
   return (
     <div className="flex justify-between items-center gap-4 bg-white dark:bg-slate-950 p-3 px-4 rounded-lg">
       <div className="flex gap-5 items-center w">
         <div
-          onClick={() => setShowComponentPage(false)}
+          onClick={() => {
+            setShowComponentPage(false);
+            setSelectedProject(null);
+          }}
           className="border mt-[2px] p-[2px] text-slate-400 flex h-7 gap-1 px-2 items-center justify-center rounded-md cursor-pointer text-[11px]"
         >
           <ArrowBackIcon sx={{ fontSize: 11 }} className="text-[11px]" />
@@ -26,8 +30,10 @@ const ComponentHeader = () => {
 
         <div className="flex gap-2 items-center">
           <div className="flex flex-col">
-            <span className="font-bold text-xl">Buttons</span>
-            <span className="text-slate-400 text-[11px]">15 Components</span>
+            <span className="font-bold text-xl">{selectedProject?.name}</span>
+            <span className="text-slate-400 text-[11px]">
+              {selectedProject?.components.length} Components
+            </span>
           </div>
         </div>
       </div>

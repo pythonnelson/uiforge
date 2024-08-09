@@ -9,14 +9,10 @@ import MoreVerticalIcon from "@mui/icons-material/MoreVert";
 import { LiveError, LivePreview, LiveProvider } from "react-live";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Component } from "@/constants/data";
 
-const SingleComponent = () => {
-  const [code, setCode] = useState(`
-        <div className="p-4 bg-blue-50 rounded-lg w-full">
-            <h1 className="text-2xl font-bold text-blue-500">Hello, Isaac Nelson</h1>
-            <p className="mt-2 text-gray-600">Edit this code to see live changes</p>
-        </div>
-    `);
+const SingleComponent = ({ component }: { component: Component }) => {
+  const [code, setCode] = useState("");
   const [theme, setTheme] = useState("github");
   const [tabMenu, setTabMenu] = useState([
     {
@@ -47,7 +43,9 @@ const SingleComponent = () => {
       {/* ==== TITLE === */}
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <span className="font-bold text-[19px]">Outline Buttons</span>
+          <span className="font-bold text-[19px] dark:text-slate-700">
+            {component?.name}
+          </span>
           <IconButton>
             <FavoriteBorderIcon className="text-slate-400 text-[20px]" />
           </IconButton>
@@ -81,7 +79,7 @@ const SingleComponent = () => {
       {/* ==== COMPONENT ==== */}
       {tabMenu[0].isSelected ? (
         <div className="w-full border rounded-md border-slate-200 mt-6">
-          <LiveProvider code={code} noInline={false}>
+          <LiveProvider code={component.code} noInline={false}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <LiveError className="rounded-lg border-slate-200 p-4 text-red-500" />
               <LivePreview className="rounded-lg border-slate-200 p-4" />
@@ -89,7 +87,7 @@ const SingleComponent = () => {
           </LiveProvider>
         </div>
       ) : (
-        <div className="border rounded-md mt-6 w-full">
+        <div className="border border-slate-200 rounded-md mt-6 w-full">
           <SyntaxHighlighter
             language={"javascript"}
             style={atelierSulphurpoolLight}
@@ -97,7 +95,7 @@ const SingleComponent = () => {
             wrapLongLines={true}
             showLineNumbers={true}
           >
-            {code}
+            {component.code}
           </SyntaxHighlighter>
         </div>
       )}

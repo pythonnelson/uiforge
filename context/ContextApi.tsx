@@ -61,6 +61,10 @@ interface AppContextType {
     showComponentPage: boolean;
     setShowComponentPage: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  selectedProjectObject: {
+    selectedProject: Project | null;
+    setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>;
+  };
   isLoadingObject: {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -108,6 +112,10 @@ const defaultState: AppContextType = {
   showComponentPageObject: {
     showComponentPage: false,
     setShowComponentPage: () => {},
+  },
+  selectedProjectObject: {
+    selectedProject: null,
+    setSelectedProject: () => {},
   },
   isLoadingObject: {
     isLoading: true,
@@ -162,6 +170,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [openProjectWindow, setOpenProjectWindow] = useState(false);
   const [openIconWindow, setOpenIconWindow] = useState(false);
   const [showComponentPage, setShowComponentPage] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -224,6 +233,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
         openIconWindowObject: { openIconWindow, setOpenIconWindow },
         showComponentPageObject: { showComponentPage, setShowComponentPage },
+        selectedProjectObject: { selectedProject, setSelectedProject },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >

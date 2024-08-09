@@ -6,7 +6,7 @@ import AllComponentsPage from "./AllComponentsPage";
 
 const ComponentPage = () => {
   return (
-    <div className="w-full h-screen bg-slate-50 dark:bg-slate-900 p-5">
+    <div className="w-full bg-slate-50 dark:bg-slate-900 p-5">
       <ComponentHeader />
       <AllComponentsPage />
     </div>

@@ -8,12 +8,13 @@ import { useAppContext } from "@/context/ContextApi";
 const ProjectsCard = ({ singleProject }: { singleProject: Project }) => {
   const {
     showComponentPageObject: { showComponentPage, setShowComponentPage },
+    selectedProjectObject: { selectedProject, setSelectedProject },
   } = useAppContext();
 
   // Function to open component page when a project card is clicked.
   function projectClicked() {
+    setSelectedProject(singleProject);
     setShowComponentPage(true);
-    console.log("Status: ", setShowComponentPage);
   }
   return (
     <div className="w-[200px] border border-slate-100 rounded-md p-5 flex gap-2 justify-center flex-col items-center max-sm:w-full dark:border-slate-900 dark:bg-slate-900">
