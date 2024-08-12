@@ -43,38 +43,6 @@ const SingleComponent = ({ component }: { component: Component }) => {
   const [isFavorite, setFavorite] = useState(component.isFavorite);
   const iconRef = useRef<HTMLDivElement>(null);
 
-  // function updateFavoriteState() {
-  //   const newAllProjects = allProjects.map((project: Project) => {
-  //     const updatedComponents = project.components.map((comp: Component) => {
-  //       if (comp._id === component._id) {
-  //         return {
-  //           ...comp,
-  //           isFavorite: !comp.isFavorite,
-  //         };
-  //       }
-  //       return comp;
-  //     });
-
-  //     if (updatedComponents !== project.components) {
-  //       return { ...project, components: updatedComponents };
-  //     }
-  //     return project;
-  //   });
-
-  //   // Update the component array in the selectedProject
-  //   if (selectedProject) {
-  //     const updatedSelectedProject = newAllProjects.find(
-  //       (project: Project) => project._id === selectedProject._id
-  //     );
-
-  //     if (updatedSelectedProject) {
-  //       setSelectedProject(updatedSelectedProject);
-  //     }
-  //   }
-  //   setAllProjects(newAllProjects);
-  //   setFavorite(!isFavorite); // Add by chatgpt
-  // }
-
   function changeTabState(index: number) {
     setTabMenu((prevTabMenu) => {
       return prevTabMenu.map((singleItem, i) => {
@@ -102,12 +70,18 @@ const SingleComponent = ({ component }: { component: Component }) => {
     const newAllProjects = allProjects.map((project: Project) => {
       const updatedComponents = project.components.map((comp: Component) => {
         if (comp._id === component._id) {
-          return { ...comp, isFavorite: !comp.isFavorite };
+          return {
+            ...comp,
+            isFavorite: !comp.isFavorite,
+          };
         }
         return comp;
       });
 
-      return { ...project, components: updatedComponents };
+      if (updatedComponents !== project.components) {
+        return { ...project, components: updatedComponents };
+      }
+      return project;
     });
 
     // Update the component array in the selectedProject
@@ -121,8 +95,8 @@ const SingleComponent = ({ component }: { component: Component }) => {
       }
     }
 
-    setAllProjects(newAllProjects);
     setFavorite(!isFavorite);
+    setAllProjects(newAllProjects);
   }
 
   return (
@@ -185,7 +159,7 @@ const SingleComponent = ({ component }: { component: Component }) => {
             style={atelierSulphurpoolLight}
             wrapLines={true}
             wrapLongLines={true}
-            showLineNumbers={true}
+            // showLineNumbers={true}
           >
             {component.code}
           </SyntaxHighlighter>

@@ -19,6 +19,11 @@ export interface MenuItem {
   isSelected: boolean;
 }
 
+export interface DropDownPosition {
+  top: number;
+  left: number;
+}
+
 // Define the shape of the context state
 interface AppContextType {
   menuItemsObject: {
@@ -66,14 +71,18 @@ interface AppContextType {
     setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>;
   };
   dropDownPositionObject: {
-    dropDownPositions: { left: number; top: number };
+    dropDownPositions: DropDownPosition;
     setDropDownPositions: React.Dispatch<
-      React.SetStateAction<{ left: number; top: number }>
+      React.SetStateAction<DropDownPosition>
     >;
   };
   openDropDownObject: {
     openDropdown: boolean;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  openDeleteWindowObject: {
+    openDeleteWindow: boolean;
+    setOpenDeleteWindow: React.Dispatch<React.SetStateAction<boolean>>;
   };
   isLoadingObject: {
     isLoading: boolean;
@@ -135,6 +144,10 @@ const defaultState: AppContextType = {
     openDropdown: false,
     setOpenDropdown: () => {},
   },
+  openDeleteWindowObject: {
+    openDeleteWindow: false,
+    setOpenDeleteWindow: () => {},
+  },
   isLoadingObject: {
     isLoading: true,
     setIsLoading: () => {},
@@ -194,6 +207,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     top: 0,
   });
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -269,6 +283,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         selectedProjectObject: { selectedProject, setSelectedProject },
         dropDownPositionObject: { dropDownPositions, setDropDownPositions },
         openDropDownObject: { openDropdown, setOpenDropdown },
+        openDeleteWindowObject: { openDeleteWindow, setOpenDeleteWindow },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >
@@ -276,5 +291,5 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     </AppContext.Provider>
   );
 };
-
-export const useAppContext = () => useContext(AppContext);
+export const useAppContext = (): AppContextType => useContext(AppContext);
+// export const useAppContext = () => useContext(AppContext);

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import CopyIcon from "@mui/icons-material/ContentCopy";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useAppContext } from "@/context/ContextApi";
 
@@ -10,8 +10,11 @@ const Dropdown = () => {
   const {
     dropDownPositionObject: { dropDownPositions },
     openDropDownObject: { openDropdown, setOpenDropdown },
+    openDeleteWindowObject: { setOpenDeleteWindow },
+    showSideBarObject: { setShowSideBar },
   } = useAppContext();
   const dropDownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -37,11 +40,17 @@ const Dropdown = () => {
     window.addEventListener("wheel", handleWheel, { passive: true });
 
     return () => {
-      document.addEventListener("mousedown", handleClickOutside);
-      window.addEventListener("scroll", handleScroll);
-      window.addEventListener("wheel", handleWheel);
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("wheel", handleWheel);
     };
   }, [setOpenDropdown]);
+
+  function deleteConfirmationFunction() {
+    setOpenDeleteWindow(true);
+    setOpenDropdown(false);
+    // setShowSideBar(false);
+  }
 
   return (
     <div
@@ -61,13 +70,16 @@ const Dropdown = () => {
       {/* ===EDIT END == */}
       {/* ===DUPLICATE == */}
       <div className="flex gap-1 items-center text-slate-600 cursor-pointer hover:text-[#1b6a88]">
-        <CopyIcon sx={{ fontSize: 21 }} className="text-[21px]" />
+        <ContentCopyIcon sx={{ fontSize: 21 }} className="text-[21px]" />
         <span className="text-[14px]">Duplicate</span>
       </div>
       {/* ===DUPLICATE END == */}
       <hr className="border-t border-slate-200" />
       {/* ===Delete == */}
-      <div className="flex gap-1 items-c enter text-slate-600 cursor-pointer hover:text-[#1b6a88]">
+      <div
+        onClick={deleteConfirmationFunction}
+        className="flex gap-1 items-c enter text-red-500 cursor-pointer hover:text-red-600"
+      >
         <DeleteOutlinedIcon sx={{ fontSize: 21 }} className="text-[21px]" />
         <span className="text-[14px]">Delete</span>
       </div>
