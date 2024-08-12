@@ -65,6 +65,16 @@ interface AppContextType {
     selectedProject: Project | null;
     setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>;
   };
+  dropDownPositionObject: {
+    dropDownPositions: { left: number; top: number };
+    setDropDownPositions: React.Dispatch<
+      React.SetStateAction<{ left: number; top: number }>
+    >;
+  };
+  openDropDownObject: {
+    openDropdown: boolean;
+    setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   isLoadingObject: {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -116,6 +126,14 @@ const defaultState: AppContextType = {
   selectedProjectObject: {
     selectedProject: null,
     setSelectedProject: () => {},
+  },
+  dropDownPositionObject: {
+    dropDownPositions: { left: 0, top: 0 },
+    setDropDownPositions: () => {},
+  },
+  openDropDownObject: {
+    openDropdown: false,
+    setOpenDropdown: () => {},
   },
   isLoadingObject: {
     isLoading: true,
@@ -171,6 +189,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [openIconWindow, setOpenIconWindow] = useState(false);
   const [showComponentPage, setShowComponentPage] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [dropDownPositions, setDropDownPositions] = useState({
+    left: 0,
+    top: 0,
+  });
+  const [openDropdown, setOpenDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -210,6 +233,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [allProjects]);
 
+  // Update favorite component when all project changes
+  useEffect(() => {
+    if (allProjects.length > 0) {
+      const favoriteComponents = allProjects.flatMap((project) =>
+        project.components.filter((component) => component.isFavorite)
+      );
+      setAllFavoriteComponents(favoriteComponents);
+    }
+  }, [allProjects]);
+
   // Update local storage whenever hidesidebar changes
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -234,6 +267,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         openIconWindowObject: { openIconWindow, setOpenIconWindow },
         showComponentPageObject: { showComponentPage, setShowComponentPage },
         selectedProjectObject: { selectedProject, setSelectedProject },
+        dropDownPositionObject: { dropDownPositions, setDropDownPositions },
+        openDropDownObject: { openDropdown, setOpenDropdown },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >

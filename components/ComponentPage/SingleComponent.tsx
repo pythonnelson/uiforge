@@ -1,19 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PreviewIcon from "@mui/icons-material/Preview";
 import CodeIcon from "@mui/icons-material/Code";
 import { IconButton } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreVerticalIcon from "@mui/icons-material/MoreVert";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { LiveError, LivePreview, LiveProvider } from "react-live";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atelierSulphurpoolLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { Component } from "@/constants/data";
+import {
+  atelierSulphurpoolLight,
+  stackoverflowLight,
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Component, Project } from "@/constants/data";
+import Checkbox from "@mui/material/Checkbox";
+import { useAppContext } from "@/context/ContextApi";
 
 const SingleComponent = ({ component }: { component: Component }) => {
-  const [code, setCode] = useState("");
-  const [theme, setTheme] = useState("github");
+  const {
+    selectedProjectObject: { selectedProject, setSelectedProject },
+    allProjectsDataObject: { allProjects, setAllProjects },
+    dropDownPositionObject: { dropDownPositions, setDropDownPositions },
+    openDropDownObject: { openDropdown, setOpenDropdown },
+  } = useAppContext();
+  // const [code, setCode] = useState(component.code);
+  // const [theme, setTheme] = useState("github");
   const [tabMenu, setTabMenu] = useState([
     {
       id: 1,
@@ -28,6 +40,40 @@ const SingleComponent = ({ component }: { component: Component }) => {
       isSelected: false,
     },
   ]);
+  const [isFavorite, setFavorite] = useState(component.isFavorite);
+  const iconRef = useRef<HTMLDivElement>(null);
+
+  // function updateFavoriteState() {
+  //   const newAllProjects = allProjects.map((project: Project) => {
+  //     const updatedComponents = project.components.map((comp: Component) => {
+  //       if (comp._id === component._id) {
+  //         return {
+  //           ...comp,
+  //           isFavorite: !comp.isFavorite,
+  //         };
+  //       }
+  //       return comp;
+  //     });
+
+  //     if (updatedComponents !== project.components) {
+  //       return { ...project, components: updatedComponents };
+  //     }
+  //     return project;
+  //   });
+
+  //   // Update the component array in the selectedProject
+  //   if (selectedProject) {
+  //     const updatedSelectedProject = newAllProjects.find(
+  //       (project: Project) => project._id === selectedProject._id
+  //     );
+
+  //     if (updatedSelectedProject) {
+  //       setSelectedProject(updatedSelectedProject);
+  //     }
+  //   }
+  //   setAllProjects(newAllProjects);
+  //   setFavorite(!isFavorite); // Add by chatgpt
+  // }
 
   function changeTabState(index: number) {
     setTabMenu((prevTabMenu) => {
@@ -38,6 +84,47 @@ const SingleComponent = ({ component }: { component: Component }) => {
       });
     });
   }
+
+  function openTheDropDown(event: React.MouseEvent) {
+    event.stopPropagation();
+    if (iconRef.current) {
+      const rect = iconRef.current.getBoundingClientRect();
+      const top = rect.top;
+      const left = rect.left;
+
+      // Open the drop down
+      setOpenDropdown(true);
+      setDropDownPositions({ top: top, left: left });
+    }
+  }
+
+  function updateFavoriteState() {
+    const newAllProjects = allProjects.map((project: Project) => {
+      const updatedComponents = project.components.map((comp: Component) => {
+        if (comp._id === component._id) {
+          return { ...comp, isFavorite: !comp.isFavorite };
+        }
+        return comp;
+      });
+
+      return { ...project, components: updatedComponents };
+    });
+
+    // Update the component array in the selectedProject
+    if (selectedProject) {
+      const updatedSelectedProject = newAllProjects.find(
+        (project: Project) => project._id === selectedProject._id
+      );
+
+      if (updatedSelectedProject) {
+        setSelectedProject(updatedSelectedProject);
+      }
+    }
+
+    setAllProjects(newAllProjects);
+    setFavorite(!isFavorite);
+  }
+
   return (
     <div className="bg-white w-full rounded-lg p-8 pt-8 pb-10 mb-3">
       {/* ==== TITLE === */}
@@ -46,13 +133,18 @@ const SingleComponent = ({ component }: { component: Component }) => {
           <span className="font-bold text-[19px] dark:text-slate-700">
             {component?.name}
           </span>
+          <Checkbox
+            onChange={updateFavoriteState}
+            checked={isFavorite}
+            icon={<FavoriteBorderIcon className="text-slate-400 text-[20px]" />}
+            checkedIcon={<FavoriteIcon className="text-red-500 text-[20px]" />}
+          />
+        </div>
+        <div onClick={openTheDropDown} ref={iconRef}>
           <IconButton>
-            <FavoriteBorderIcon className="text-slate-400 text-[20px]" />
+            <MoreVerticalIcon className="text-slate-400 text-[20px]" />
           </IconButton>
         </div>
-        <IconButton>
-          <MoreVerticalIcon className="text-slate-400 text-[20px]" />
-        </IconButton>
       </div>
       {/* ==== TITLE END === */}
 
