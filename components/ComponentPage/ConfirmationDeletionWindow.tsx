@@ -4,15 +4,54 @@ import { useAppContext } from "@/context/ContextApi";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
+import { Component, Project } from "@/constants/data";
+import toast from "react-hot-toast";
 
 const ConfirmationDeletionWindow = () => {
   const {
     openDeleteWindowObject: { openDeleteWindow, setOpenDeleteWindow },
+    allProjectsDataObject: { allProjects, setAllProjects },
+    selectedProjectObject: { selectedProject },
+    selectedComponentObject: { setSelectedComponent },
   } = useAppContext();
+
+  function deleteComponentFunction() {
+    try {
+      // Delete the component from the selcted project
+      if (selectedProject) {
+        const updateSelectedProject = {
+          ...selectedProject,
+          components: selectedProject.components.filter(
+            (component: Component) => component._id !== selectedProject?._id
+          ),
+        };
+        setSelectedComponent(updateSelectedProject);
+      }
+
+      // Delete the component from allProjects
+      const updatedAllProjects = allProjects.map((project: Project) => {
+        if (project._id === selectedProject?._id) {
+          return {
+            ...project,
+            components: project.components.filter(
+              (component: Component) => component._id !== selectedProject?._id
+            ),
+          };
+        }
+        return project;
+      });
+      setAllProjects(updatedAllProjects);
+      setOpenDeleteWindow(false);
+      toast.success("Component deleted successfully");
+    } catch (error) {
+      toast.error("Component not deleted");
+    }
+  }
+
   return (
     <div
       style={{ visibility: openDeleteWindow ? "visible" : "hidden" }}
-      className="w-[40%] max-sm:w-[90%] absolute p-8 px-9 border border-slate-100 bg-white shadow-md left-1/3 top-1/3 right-1/3 z-50 zoom-in-75"
+      className="w-[40%] max-sm:w-[90%] rounded-md absolute p-8 px-9 border border-slate-100 bg-white shadow-md left-1/3 top-1/3 right-1/3 z-50 zoom-in-75"
     >
       {/* ===== HEADER ===== */}
       <div className="flex justify-between items-start">
@@ -45,7 +84,10 @@ const ConfirmationDeletionWindow = () => {
         >
           Cancel
         </button>
-        <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+        <button
+          onClick={deleteComponentFunction}
+          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+        >
           Proceed to Deletion
         </button>
       </div>
