@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 export interface Component {
   _id: string;
   name: string;
-  projectName: string;
+  projectName?: string;
   code: string;
-  isFavorite: boolean;
+  isFavorite?: boolean;
   createdAt: string;
 }
 

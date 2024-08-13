@@ -14,25 +14,32 @@ import estreePlugin from "prettier/plugins/estree";
 import "ace-builds/src-noconflict/mode-jsx";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/ext-language_tools";
-import { CheckBox, Save } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Checkbox from "@mui/material/Checkbox";
 import CodeIcon from "@mui/icons-material/Code";
+import toast from "react-hot-toast";
+import { Component } from "@/constants/data";
+import { v4 as uuidv4 } from "uuid";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import { IconButton } from "@mui/material";
 
 const ComponentEditor = () => {
-  const [code, setCode] = useState(
-    `
-       <div className="flex items-center jsutify-center">
-            <p className="text-blue-500">Hello World !!!</p>
-      </div>;
-    `
-  );
+  const [code, setCode] = useState(``);
+  const [inputName, setInputName] = useState<string>("");
   const aceEditorRef = useRef<AceEditor | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
   const {
     openComponentEditorObject: { openComponentEditor, setOpenComponentEditor },
+    allProjectsDataObject: { allProjects, setAllProjects },
+    selectedProjectObject: { selectedProject, setSelectedProject },
+    selectedComponentObject: { selectedComponent, setSelectedComponent },
   } = useAppContext();
+  const editorInstanceRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const formatCode = async () => {
+  const formatCode = async (codeToFormat: string) => {
     if (aceEditorRef.current) {
       try {
         const formatted = await prettier.format(code, {
@@ -58,12 +65,151 @@ const ComponentEditor = () => {
   };
 
   function saveComponent() {
-    formatCode();
+    // Check if the project name is not empty
+    if (inputName.trim() === "") {
+      toast.error("Please provide a component name");
+      inputRef.current?.focus();
+      return;
+    }
+
+    // Check if the code is empty or not
+    if (code.trim() === "") {
+      toast.error("Please provide a component code");
+      aceEditorRef.current?.editor.focus();
+      return;
+    }
+
+    // Check if a project is selected
+    if (!selectedProject) {
+      toast.error("Please select a project");
+      return;
+    }
+
+    // If no component is selected
+    if (!selectedComponent) {
+      // Create a new component
+      const newComponent: Component = {
+        _id: uuidv4(),
+        name: inputName,
+        code: code,
+        isFavorite: false,
+        createdAt: new Date().toISOString(),
+        projectName: selectedProject.name,
+      };
+
+      // Check if the component already exists
+      if (
+        selectedProject.components.some(
+          (component) =>
+            component.name.toLowerCase() === inputName.toLowerCase()
+        )
+      ) {
+        toast.error("Component name already exists");
+        return;
+      }
+
+      addNewComponent(newComponent);
+      setSelectedComponent(newComponent);
+      toast.success("Component created successfully");
+      formatCode(newComponent.code);
+    } else {
+      // Update the existing component
+      const updatedComponent: Component = {
+        ...selectedProject,
+        name: inputName,
+        code: code,
+        // isFavorite: isFavorite,
+        // projectName: projectName
+      };
+
+      // Check if the component conflicts with another component
+      if (
+        selectedProject.components.some(
+          (component) =>
+            component._id !== selectedComponent?._id &&
+            component.name.toLowerCase() === inputName.toLowerCase()
+        )
+      ) {
+        toast.error("Component name already exists in this project");
+        return;
+      }
+      updateExistingComponent(updatedComponent);
+      setSelectedComponent(updatedComponent);
+      toast.success("Component updated successfully");
+    }
+  }
+
+  function addNewComponent(newComponent: Component) {
+    if (selectedProject && allProjects) {
+      const updatedProject = {
+        ...selectedProject,
+        components: [...selectedProject.components, newComponent],
+      };
+
+      const updatedAllProjects = allProjects.map((project) =>
+        project._id === selectedProject._id ? updatedProject : project
+      );
+
+      setSelectedProject(updatedProject);
+      setAllProjects(updatedAllProjects);
+    }
+  }
+
+  function updateExistingComponent(updatedComponent: Component) {
+    if (selectedProject && allProjects) {
+      const updatedComponents = selectedProject.components.map((component) =>
+        component._id === updatedComponent._id ? updatedComponent : component
+      );
+
+      const updatedProject = {
+        ...selectedProject,
+        components: updatedComponents,
+      };
+
+      const updatedAllProjects = allProjects.map((project) =>
+        project._id === selectedProject._id ? selectedProject : project
+      );
+
+      setSelectedProject(updatedProject);
+      setAllProjects(updatedAllProjects);
+    }
+  }
+
+  function copyCode() {
+    // Copy code to clipboard
+    setCopySuccess(true);
+    toast.success("Code successfully copied");
+    setTimeout(() => {
+      navigator.clipboard.writeText(code);
+      setCopySuccess(false);
+    }, 1400);
   }
 
   useEffect(() => {
-    formatCode();
-  }, []);
+    if (openComponentEditor) {
+      inputRef.current?.focus();
+      if (!selectedComponent) {
+        resetEditor();
+      } else {
+        setInputName(selectedComponent.name);
+        setCode(selectedComponent.code);
+        if (editorInstanceRef.current) {
+          editorInstanceRef.current.editor.setValue(code, -1);
+          formatCode(selectedComponent.code);
+        }
+      }
+    } else {
+      resetEditor();
+    }
+  }, [openComponentEditor, selectedComponent]);
+
+  const resetEditor = () => {
+    setCode("");
+    setInputName("");
+    if (editorInstanceRef.current) {
+      editorInstanceRef.current.setValue("", -1);
+    }
+  };
 
   return (
     <div
@@ -88,7 +234,11 @@ const ComponentEditor = () => {
           </div>
           {/* === CLOSE ICON ==== */}
           <CloseIcon
-            onClick={() => setOpenComponentEditor(false)}
+            onClick={() => {
+              setOpenComponentEditor(false);
+              setSelectedComponent(null);
+              resetEditor();
+            }}
             sx={{ fontSize: 16 }}
             className="text-slate-400 text-[18px] cursor-pointer"
           />
@@ -111,6 +261,9 @@ const ComponentEditor = () => {
           {/* === INPUT === */}
           <div className="flex gap-3">
             <input
+              ref={inputRef}
+              value={inputName}
+              onChange={(e) => setInputName(e.target.value)}
               placeholder="Enter Component Name"
               className="p-[10px] text-[12px] w-full rounded-md border outline-none"
             />
@@ -125,6 +278,14 @@ const ComponentEditor = () => {
               <span>JSX Code</span>
             </span>
 
+            <IconButton onClick={copyCode}>
+              {!copyCode ? (
+                <ContentCopyIcon sx={{ fontSize: 17 }} />
+              ) : (
+                <DoneAllIcon sx={{ fontSize: 17 }} />
+              )}
+            </IconButton>
+
             <button
               onClick={saveComponent}
               //   onClick={() => saveCode(code)}
@@ -138,9 +299,12 @@ const ComponentEditor = () => {
             {/* === COPY BUTTON ==== */}
             <AceEditor
               ref={aceEditorRef}
+              onLoad={(editorInstance) =>
+                (editorInstanceRef.current = editorInstance)
+              }
               mode="jsx"
-              theme="solarized_dark"
-              //   theme="Dreamweaver"
+              //   theme="solarized_dark"
+              theme="Dreamweaver"
               onChange={handleChange}
               name="jsxEditor"
               value={code}
