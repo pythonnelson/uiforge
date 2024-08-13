@@ -17,33 +17,30 @@ const ConfirmationDeletionWindow = () => {
 
   function deleteComponentFunction() {
     try {
-      // Delete the component from the selcted project
       if (selectedProject) {
-        const updateSelectedProject = {
-          ...selectedProject,
-          components: selectedProject.components.filter(
-            (component: Component) => component._id !== selectedProject?._id
-          ),
-        };
-        // TODO: Fix this error
-        setSelectedComponent(updateSelectedProject);
-      }
+        // Filter out the selected component from the selected project's components
+        const updatedComponents = selectedProject.components.filter(
+          (component: Component) => component._id !== selectedProject._id
+        );
 
-      // Delete the component from allProjects
-      const updatedAllProjects = allProjects.map((project: Project) => {
-        if (project._id === selectedProject?._id) {
-          return {
-            ...project,
-            components: project.components.filter(
-              (component: Component) => component._id !== selectedProject?._id
-            ),
-          };
-        }
-        return project;
-      });
-      setAllProjects(updatedAllProjects);
-      setOpenDeleteWindow(false);
-      toast.success("Component deleted successfully");
+        // Update the selected project with the filtered components
+        const updatedSelectedProject = {
+          ...selectedProject,
+          components: updatedComponents,
+        };
+
+        // Update the `allProjects` with the modified project
+        const updatedAllProjects = allProjects.map((project: Project) => {
+          if (project._id === selectedProject._id) {
+            return updatedSelectedProject;
+          }
+          return project;
+        });
+
+        setAllProjects(updatedAllProjects);
+        setOpenDeleteWindow(false);
+        toast.success("Component deleted successfully");
+      }
     } catch (error) {
       toast.error("Component not deleted");
     }
