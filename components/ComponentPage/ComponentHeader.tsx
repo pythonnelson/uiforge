@@ -11,9 +11,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 const ComponentHeader = () => {
   const {
     showComponentPageObject: { setShowComponentPage },
-    showSideBarObject: { showSideBar, setShowSideBar },
+    showSideBarObject: { setShowSideBar },
     selectedProjectObject: { selectedProject, setSelectedProject },
+    openComponentEditorObject: { setOpenComponentEditor },
   } = useAppContext();
+
+  function handleComponentEditor() {
+    setOpenComponentEditor(true);
+    setShowSideBar(false);
+  }
   return (
     <div className="flex justify-between items-center gap-4 bg-white dark:bg-slate-950 p-3 px-4 rounded-lg">
       <div className="flex gap-5 items-center w">
@@ -57,7 +63,10 @@ const ComponentHeader = () => {
         {selectedProject !== undefined &&
           selectedProject !== null &&
           selectedProject.components?.length > 0 && (
-            <button className="bg-[#1b6a88] text-[12px] h-[33px] text-white px-3 rounded-md">
+            <button
+              onClick={handleComponentEditor}
+              className="bg-[#1b6a88] text-[12px] h-[33px] text-white px-3 rounded-md"
+            >
               <AddOutlinedIcon sx={{ fontSize: 16 }} className="" />
               <span className="max-sm:hidden">Add Component</span>
             </button>

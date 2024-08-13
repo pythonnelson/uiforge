@@ -1,5 +1,6 @@
 "use client";
 
+import ComponentEditor from "@/components/ComponentPage/ComponentEditor";
 import ComponentPage from "@/components/ComponentPage/ComponentPage";
 import ConfirmationDeletionWindow from "@/components/ComponentPage/ConfirmationDeletionWindow";
 import Dropdown from "@/components/ComponentPage/Dropdown";
@@ -37,6 +38,7 @@ const Dashboard = () => {
   return (
     <div className="flex poppins h-screen relative">
       <ConfirmationDeletionWindow />
+      <ComponentEditor />
       <Dropdown />
       <IconWindow onUpdateIconSelected={getTheIconSelected} />
       <AddProjectWindow selectedIcon={selectedIcon} />

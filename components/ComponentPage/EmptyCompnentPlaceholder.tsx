@@ -8,6 +8,7 @@ import AddOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const EmptyCompnentPlaceholder = () => {
   const {
     selectedProjectObject: { selectedProject },
+    openComponentEditorObject: { setOpenComponentEditor },
   } = useAppContext();
   return (
     <div className="p-1 gap-5 flex flex-col justify-center h-[500px] mt-[68px] mb-[34px] items-center">
@@ -27,7 +28,10 @@ const EmptyCompnentPlaceholder = () => {
           component
         </p>
       </div>
-      <button className="bg-[#1b6a88] flex gap-1 items-center p-2 rounded-md text-white text-center text-[12px] px-3 pr-5">
+      <button
+        onClick={() => setOpenComponentEditor(true)}
+        className="bg-[#1b6a88] flex gap-1 items-center p-2 rounded-md text-white text-center text-[12px] px-3 pr-5"
+      >
         <AddOutlineIcon />
         <span className="text-sm">Add new component</span>
       </button>

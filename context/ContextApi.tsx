@@ -85,8 +85,14 @@ interface AppContextType {
     setOpenDeleteWindow: React.Dispatch<React.SetStateAction<boolean>>;
   };
   selectedComponentObject: {
-    selectedComponent: Component[] | null;
-    setSelectedComponent: React.Dispatch<React.SetStateAction<Component[]>>;
+    selectedComponent: Component | null;
+    setSelectedComponent: React.Dispatch<
+      React.SetStateAction<Component | null>
+    >;
+  };
+  openComponentEditorObject: {
+    openComponentEditor: boolean;
+    setOpenComponentEditor: React.Dispatch<React.SetStateAction<boolean>>;
   };
   isLoadingObject: {
     isLoading: boolean;
@@ -156,6 +162,10 @@ const defaultState: AppContextType = {
     selectedComponent: null,
     setSelectedComponent: () => {},
   },
+  openComponentEditorObject: {
+    openComponentEditor: false,
+    setOpenComponentEditor: () => {},
+  },
   isLoadingObject: {
     isLoading: true,
     setIsLoading: () => {},
@@ -216,7 +226,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState<Component[]>([]);
+  const [selectedComponent, setSelectedComponent] = useState<Component | null>(
+    null
+  );
+  const [openComponentEditor, setOpenComponentEditor] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Resize window
@@ -294,6 +307,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         openDropDownObject: { openDropdown, setOpenDropdown },
         openDeleteWindowObject: { openDeleteWindow, setOpenDeleteWindow },
         selectedComponentObject: { selectedComponent, setSelectedComponent },
+        openComponentEditorObject: {
+          openComponentEditor,
+          setOpenComponentEditor,
+        },
         isLoadingObject: { isLoading, setIsLoading },
       }}
     >

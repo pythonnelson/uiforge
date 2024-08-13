@@ -25,6 +25,7 @@ const ConfirmationDeletionWindow = () => {
             (component: Component) => component._id !== selectedProject?._id
           ),
         };
+        // TODO: Fix this error
         setSelectedComponent(updateSelectedProject);
       }
 
